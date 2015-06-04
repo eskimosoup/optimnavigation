@@ -11,14 +11,18 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :route %><br>
-    <%= f.text_field :route %>
-  </div>
+  <%= field_set_tag 'Settings' do %>  
+    <div class="field">
+      <%= f.label :name %><br>
+      <%= f.text_field :name %>
+    </div>
+
+    <div class="field">
+      <%= f.label :route %><br>
+      <%= f.text_field :route %>
+    </div>
+  <% end %>
+
   <div class="actions">
     <%= f.submit %>
   </div>

@@ -11,10 +11,13 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :url %><br>
-    <%= f.text_field :url %>
-  </div>
+  <%= field_set_tag 'Website address' do %>
+    <div class="field">
+      <%= f.label :url %><br>
+      <%= f.text_field :url %>
+    </div>
+  <% end %>
+
   <div class="actions">
     <%= f.submit %>
   </div>

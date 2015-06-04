@@ -1,29 +1,18 @@
-<p id="notice"><%= notice %></p>
+<%= render 'optimadmin/shared/header/main_title', title: 'Manage Static Pages' %>
 
-<h1>Listing Static Pages</h1>
+<div class="main-content">
+  <%= render 'optimadmin/shared/module/index/new_item', title: 'Static Page', object: Optimadmin::StaticPage, path: new_static_page_path %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Route</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+  <div class="row collapse module-list-index header">
+    <%= list_item 'large-5 small-5' do 'Name' end %>
 
-  <tbody>
-    <% @static_pages.each do |static_page| %>
-      <tr>
-        <td><%= static_page.name %></td>
-        <td><%= static_page.route %></td>
-        <td><%= link_to 'Show', static_page %></td>
-        <td><%= link_to 'Edit', edit_static_page_path(static_page) %></td>
-        <td><%= link_to 'Destroy', static_page, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+    <%= list_item 'large-5 small-5' do 'Route' end %>
 
-<br>
+    <%= list_item { 'Edit' } %>
 
-<%= link_to 'New Static page', new_static_page_path %>
+    <%= list_item 'large-1 hide-for-medium-down text-center last' do 'Delete' end %>
+  </div>
+
+
+  <%= render_object @static_pages %>
+</div>

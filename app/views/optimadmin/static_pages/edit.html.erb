@@ -1,6 +1,7 @@
-<h1>Editing Static Page</h1>
+<%= render 'optimadmin/shared/header/main_title', title: 'Edit Static Page' %>
 
-<%= render 'form' %>
+<div class="main-content">
+  <%= render 'optimadmin/shared/module/form/back', path: static_pages_path, title: 'Static Page' %>
 
-<%= link_to 'Show', @static_page %> |
-<%= link_to 'Back', static_pages_path %>
+  <%= render 'form' %>
+</div>
