@@ -1,0 +1,1 @@
+NavigationMenus = %w( header footer )
