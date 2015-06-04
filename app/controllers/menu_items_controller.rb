@@ -41,7 +41,7 @@ class MenuItemsController < ApplicationController
   end
 
   def menu_item_params
-    params.require(:menu_item).permit(:menu_name, :name, :parent_id, :anchored, :new_window, :title_attribute, :display)
+    params.require(:menu_item).permit(:menu_name, :name, :parent_id, :anchored, :new_window, :title_attribute)
   end
 
 end
