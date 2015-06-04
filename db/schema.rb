@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150604130502) do
+ActiveRecord::Schema.define(version: 20150604132041) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,10 +47,9 @@ ActiveRecord::Schema.define(version: 20150604130502) do
     t.string   "name",            limit: 100
     t.integer  "parent_id"
     t.boolean  "anchored",                    default: false
-    t.boolean  "new_window",                  default: true
+    t.boolean  "new_window",                  default: false
     t.string   "title_attribute", limit: 100
     t.integer  "position",                    default: 0
-    t.boolean  "display",                     default: true
     t.datetime "created_at",                                  null: false
     t.datetime "updated_at",                                  null: false
   end
@@ -96,7 +95,7 @@ ActiveRecord::Schema.define(version: 20150604130502) do
   end
 
   create_table "optimadmin_external_links", force: :cascade do |t|
-    t.string   "url"
+    t.string   "route"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

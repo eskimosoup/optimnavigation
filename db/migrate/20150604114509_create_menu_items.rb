@@ -8,7 +8,6 @@ class CreateMenuItems < ActiveRecord::Migration
       t.boolean :new_window, default: false
       t.string :title_attribute, limit: 100
       t.integer :position, default: 0
-      t.boolean :display, default: true
 
       t.timestamps null: false
     end
