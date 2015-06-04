@@ -5,10 +5,15 @@ class ApplicationController < ActionController::Base
 
   before_action :global_site_settings
 
+  def index
+
+  end
+
   private
 
   def global_site_settings
     @global_site_settings ||= Optimadmin::SiteSetting.current_environment
   end
   helper_method :global_site_settings
+
 end

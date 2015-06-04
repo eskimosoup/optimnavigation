@@ -1,0 +1,12 @@
+<ul>
+  <% menu_item_tree.each do |menu_item, menu_item_children| %>
+    <li>
+      <%= link_to menu_item.name, edit_menu_item_path(menu_item) %>
+      <% unless menu_item_children.size.zero? %>
+        <ul>
+          <%= render partial: "menu_item_tree", locals: { menu_item_tree: menu_item_children } %>
+        </ul>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

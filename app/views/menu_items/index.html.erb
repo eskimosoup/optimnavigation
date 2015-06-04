@@ -1,0 +1,8 @@
+<% @menus.each do |menu| %>
+  <h2><%= menu.humanized_name %></h2>
+
+  <%= link_to "New Menu Item", new_menu_item_path(menu_name: menu.name) %>
+  <%#= menu_items_tree_for(menu.menu_items) %>
+  <%#= raise menu.menu_items.to_yaml %>
+  <%= render partial: "menu_item_tree", locals: { menu_item_tree: menu.menu_items } %>
+<% end %>
