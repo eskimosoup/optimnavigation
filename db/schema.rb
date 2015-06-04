@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150604120211) do
+ActiveRecord::Schema.define(version: 20150604142903) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,16 +21,6 @@ ActiveRecord::Schema.define(version: 20150604120211) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-
-  create_table "links", force: :cascade do |t|
-    t.integer  "menu_item_id"
-    t.string   "resource_type"
-    t.integer  "resource_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-  end
-
-  add_index "links", ["menu_item_id"], name: "index_links_on_menu_item_id", using: :btree
 
   create_table "menu_item_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id",   null: false
@@ -94,7 +84,7 @@ ActiveRecord::Schema.define(version: 20150604120211) do
   end
 
   create_table "optimadmin_external_links", force: :cascade do |t|
-    t.string   "url"
+    t.string   "route"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -112,6 +102,16 @@ ActiveRecord::Schema.define(version: 20150604120211) do
     t.string "type"
   end
 
+  create_table "optimadmin_links", force: :cascade do |t|
+    t.integer  "menu_item_id"
+    t.string   "resource_type"
+    t.integer  "resource_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "optimadmin_links", ["menu_item_id"], name: "index_optimadmin_links_on_menu_item_id", using: :btree
+
   create_table "optimadmin_site_settings", force: :cascade do |t|
     t.string "key"
     t.string "value"
@@ -125,5 +125,5 @@ ActiveRecord::Schema.define(version: 20150604120211) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "links", "menu_items"
+  add_foreign_key "optimadmin_links", "menu_items"
 end

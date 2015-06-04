@@ -1,5 +1,5 @@
 module Optimadmin
   class ExternalLink < ActiveRecord::Base
-    validates :website, presence: true
+    validates :route, presence: true
   end
 end
