@@ -1,6 +1,6 @@
 class CreateStaticPages < ActiveRecord::Migration
   def change
-    create_table :static_pages do |t|
+    create_table :optimadmin_static_pages do |t|
       t.string :name
       t.string :route
 

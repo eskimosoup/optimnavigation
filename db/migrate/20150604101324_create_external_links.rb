@@ -1,7 +1,7 @@
 class CreateExternalLinks < ActiveRecord::Migration
   def change
-    create_table :external_links do |t|
-      t.string :url
+    create_table :optimadmin_external_links do |t|
+      t.string :route
 
       t.timestamps null: false
     end
