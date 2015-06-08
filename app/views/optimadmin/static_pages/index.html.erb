@@ -1,7 +1,8 @@
 <%= render 'optimadmin/shared/header/main_title', title: 'Manage Static Pages' %>
 
 <div class="main-content">
-
+  <%= render 'optimadmin/shared/module/form/back', path: menu_items_path, title: 'Manage Menu', prefix: 'Back to' %>
+  
   <%= render 'optimadmin/shared/module/index/new_item', title: 'Static Page', object: Optimadmin::StaticPage, path: new_static_page_path %>
 
   <div class="row collapse module-list-index header">

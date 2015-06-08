@@ -11,31 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150604142903) do
+ActiveRecord::Schema.define(version: 20150608083122) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "menu_item_hierarchies", id: false, force: :cascade do |t|
-    t.integer "ancestor_id",   null: false
-    t.integer "descendant_id", null: false
-    t.integer "generations",   null: false
-  end
-
-  add_index "menu_item_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "menu_item_anc_desc_idx", unique: true, using: :btree
-  add_index "menu_item_hierarchies", ["descendant_id"], name: "menu_item_desc_idx", using: :btree
-
-  create_table "menu_items", force: :cascade do |t|
-    t.string   "menu_name",       limit: 100
-    t.string   "name",            limit: 100
-    t.integer  "parent_id"
-    t.boolean  "anchored",                    default: false
-    t.boolean  "new_window",                  default: false
-    t.string   "title_attribute", limit: 100
-    t.integer  "position",                    default: 0
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
-  end
 
   create_table "optimadmin_administrators", force: :cascade do |t|
     t.string   "username",               null: false
@@ -106,6 +85,30 @@ ActiveRecord::Schema.define(version: 20150604142903) do
 
   add_index "optimadmin_links", ["menu_item_id"], name: "index_optimadmin_links_on_menu_item_id", using: :btree
 
+  create_table "optimadmin_menu_item_hierarchies", id: false, force: :cascade do |t|
+    t.integer "ancestor_id",   null: false
+    t.integer "descendant_id", null: false
+    t.integer "generations",   null: false
+  end
+
+  add_index "optimadmin_menu_item_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "menu_item_anc_desc_idx", unique: true, using: :btree
+  add_index "optimadmin_menu_item_hierarchies", ["descendant_id"], name: "menu_item_desc_idx", using: :btree
+
+  create_table "optimadmin_menu_items", force: :cascade do |t|
+    t.string   "menu_name",       limit: 100
+    t.string   "name",            limit: 100
+    t.integer  "parent_id"
+    t.boolean  "anchored",                    default: false
+    t.boolean  "new_window",                  default: false
+    t.string   "title_attribute", limit: 100
+    t.integer  "position",                    default: 0
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
+    t.integer  "link_id"
+  end
+
+  add_index "optimadmin_menu_items", ["link_id"], name: "index_optimadmin_menu_items_on_link_id", using: :btree
+
   create_table "optimadmin_site_settings", force: :cascade do |t|
     t.string "key"
     t.string "value"
@@ -119,5 +122,5 @@ ActiveRecord::Schema.define(version: 20150604142903) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "optimadmin_links", "menu_items"
+  add_foreign_key "optimadmin_links", "optimadmin_menu_items", column: "menu_item_id"
 end

@@ -1,0 +1,54 @@
+<%= form_for @menu_item do |f| %>
+  <%= f.hidden_field :menu_name %>
+
+  <% if @menu_item.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@menu_item.errors.count, "error") %> prohibited this menu item from being saved:</h2>
+
+      <ul>
+        <% @menu_item.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= field_set_tag 'Menu Item' do %>
+
+    <div class="field">
+      <%= f.label :name %><br/>
+      <%= f.text_field :name %>
+    </div>
+
+    <div class="field">
+      <%= f.label :title_attribute %><br/>
+      <%= f.text_field :title_attribute %>
+    </div>
+
+    <div class="field">
+      <%= f.label :parent_id %>
+      <%= f.select :parent_id, @menu_items, include_blank: true %>
+    </div>
+
+    <div class="field">
+      <%= f.label :new_window, "Open in a new window" %><br/>
+      <%= f.check_box :new_window %>
+    </div>
+
+    <div class="field">
+      <%= f.label :anchored do %><abbr title="Anchored menu items can not be deleted">Anchored</abbr><% end %><br />
+      <%= f.check_box :anchored %>
+    </div>
+
+  <% end %>
+
+  <%= field_set_tag 'Link' do %>
+    <%= f.fields_for :link do |link_fields| %>
+      <%= render 'link_form', f: link_fields %>
+    <% end %>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

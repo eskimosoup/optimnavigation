@@ -1,0 +1,13 @@
+<%= render 'optimadmin/shared/header/main_title', title: "Reorder Menu Items" %>
+
+<div class="main-content">
+  <%= render 'optimadmin/shared/module/form/back', path: menu_items_path, title: 'Manage Menu', prefix: 'Back to' %>
+
+  <% @menus.each do |menu| %>
+    <h2><%= menu.humanized_name %></h2>
+
+    <div class="navigation-sortable" data-sortable-path="<%= order_menu_items_path %>">
+      <%= render partial: "menu_item_tree", locals: { menu_item_tree: menu.menu_items } %>
+    </div>
+  <% end %>
+</div>
