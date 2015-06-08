@@ -1,0 +1,32 @@
+<%= render 'optimadmin/shared/header/main_title', title: 'Manage Menus' %>
+
+<div class="main-content">
+  <div class="row collapse">
+    <div class="large-3 columns">
+      <div class="back">
+        <%= link_to static_pages_path do %>
+          <%= octicon('file-text') %>
+          Manage Static Pages
+        <% end %>
+      </div>
+    </div>
+
+    <div class="large-4 end columns">
+      <div class="back">
+        <%= link_to reorder_menu_items_path do %>
+          <%= octicon('settings') %>
+          Reorder Menu Items
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+
+  <% @menus.each do |menu| %>
+    <h2><%= menu.humanized_name %></h2>
+
+    <%= render 'optimadmin/shared/module/index/new_item', title: 'Menu Item', object: Optimadmin::MenuItem, path: new_menu_item_path(menu_name: menu.name) %>
+    
+    <%= render partial: "menu_item_tree", locals: { menu_item_tree: menu.menu_items } %>
+  <% end %>
+</div>
