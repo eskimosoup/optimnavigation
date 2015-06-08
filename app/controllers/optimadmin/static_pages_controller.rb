@@ -24,10 +24,21 @@ module Optimadmin
        @static_page = StaticPage.new(static_page_params)
 
       if @static_page.save
-        redirect_to static_pages_url, notice: 'Static page was successfully created.'
+        respond_to do |format|
+          format.html { redirect_to static_pages_url, notice: 'Static page was successfully created.' }
+          format.js {
+            @static_page = StaticPage.new
+            flash[:notice] = 'Static page was successfully created.'
+            render :success
+            flash.clear
+          }
+        end
       else
-        render :new
-       end
+        respond_to do |format|
+          format.html { render :new }
+          format.js
+        end
+      end
    end
 
     # PATCH/PUT /static_pages/1

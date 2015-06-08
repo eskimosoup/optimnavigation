@@ -1,6 +1,6 @@
 module Optimadmin
   class Link < ActiveRecord::Base
-    belongs_to :menu_item
+    has_one :menu_item
     validates :resource_type, :resource_id, presence: true
 
     include ActionDispatch::Routing::UrlFor
@@ -11,9 +11,9 @@ module Optimadmin
     end
 
     def destination
-      if resource_type == 'ExternalLink'
-        Object.const_get("Optimadmin::#{resource_type}").find(resource_id).route
-      elsif resource_type == 'StaticPage'
+      if resource_type == 'Optimadmin::ExternalLink'
+        Object.const_get("Optimadmin::#{resource_type}").find(resource_id).name
+      elsif resource_type == 'Optimadmin::StaticPage'
         path = Object.const_get("Optimadmin::#{resource_type}").find(resource_id).route
         send(path)
       else

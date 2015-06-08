@@ -1,0 +1,4 @@
+if($('#menu_item_link_attributes_resource_type').val() == 'Optimadmin::ExternalLink') {
+  $('#menu_item_link_attributes_resource_type').change();
+}
+$('#new_external_link').replaceWith("<%= j render 'optimadmin/external_links/form' %>")

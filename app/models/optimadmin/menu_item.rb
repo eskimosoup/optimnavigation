@@ -1,12 +1,17 @@
 module Optimadmin
   class MenuItem < ActiveRecord::Base
-    has_closure_tree order: :position
+    has_closure_tree order: :position, dependent: :delete_all
 
     validates :menu_name, presence: true, length: { maximum: 100 }
     validates :name, presence: true, length: { maximum: 100 }
     validates :title_attribute, length: { maximum: 100 }
 
-    has_one :link
+    attr_accessor :resource_type, :resource_id
+    #validates :resource_type, :resource_id, presence: true
+
+    belongs_to :link, class_name: "Optimadmin::Link", dependent: :destroy
+
+    accepts_nested_attributes_for :link
 
     before_save :check_title_attr
 
