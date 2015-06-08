@@ -39,7 +39,7 @@ module Optimadmin
       @menus = Menu.build_collection
     end
 
-    def order      
+    def order
       params[:item].each_with_index do |id, index|
       	MenuItem.find(id).update_attribute(:position, index)
     	end
@@ -51,6 +51,11 @@ module Optimadmin
     	end
 
 	    render :nothing => true
+    end
+
+    def destroy
+      @menu_item.destroy
+      redirect_to menu_items_url, notice: 'Menu item was successfully destroyed.'
     end
 
     private
