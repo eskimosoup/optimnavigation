@@ -1,7 +1,9 @@
 module Optimadmin
   class MenuItemsController < ApplicationController
+    #load_and_authorize_resource
 
     before_action :set_menu_item, only: [:edit, :update, :destroy]
+    before_action :new_static_page, only: [:new, :edit, :update]
 
     def index
       @menus = Menu.build_collection
@@ -9,7 +11,9 @@ module Optimadmin
 
     def new
       @menu_item = MenuItem.new(menu_name: params[:menu_name])
+      @menu_item.build_link
       @menu_items = MenuItem.where(menu_name: params[:menu_name]).pluck(:name, :id)
+
     end
 
     def create
@@ -24,6 +28,19 @@ module Optimadmin
 
     def edit
       @menu_items = MenuItem.where(menu_name: @menu_item.menu_name).where.not(id: @menu_item.id).pluck(:name, :id)
+
+      @menu_item.build_link if @menu_item.link.blank?
+
+      begin
+        @klass = @menu_item.link.resource_type.blank? ? nil : @menu_item.link.resource_type.constantize
+      rescue NameError
+        @klass = nil
+      end
+
+      if @klass
+        @link_resources = @klass.all.map{ |x| [x.name, x.id] }
+      end
+
     end
 
     def update
@@ -31,6 +48,7 @@ module Optimadmin
         redirect_to menu_items_path, notice: "Successfully created menu item"
       else
         @menu_items = MenuItem.where(menu_name: @menu_item.menu_name).where.not(id: @menu_item.id).pluck(:name, :id)
+
         render :edit
       end
     end
@@ -42,7 +60,7 @@ module Optimadmin
     def order
       params[:item].each_with_index do |id, index|
       	MenuItem.find(id).update_attribute(:position, index)
-    	end
+  	   end
 
     	# Since the positions are being changed during the previous loop the positions depth cache
     	# calculates wrong. A second pass fixes this but there should be a better way.
@@ -53,6 +71,22 @@ module Optimadmin
 	    render :nothing => true
     end
 
+    def update_link_resources
+      begin
+        @klass = params[:klass].constantize
+      rescue NameError
+        @klass = nil
+      rescue ActiveRecord::RecordNotFound
+        @klass = nil
+      end
+
+      @leaf_options = @klass.all.map{ |x| [x.name, x.id] } if @klass
+
+      respond_to do |format|
+        format.js
+      end
+    end
+
     def destroy
       @menu_item.destroy
       redirect_to menu_items_url, notice: 'Menu item was successfully destroyed.'
@@ -60,13 +94,18 @@ module Optimadmin
 
     private
 
-    def set_menu_item
-      @menu_item = MenuItem.find(params[:id])
-    end
+      def set_menu_item
+        @menu_item = MenuItem.find(params[:id])
+      end
 
-    def menu_item_params
-      params.require(:menu_item).permit(:menu_name, :name, :parent_id, :anchored, :new_window, :title_attribute)
-    end
+      def new_static_page
+        @static_page = StaticPage.new
+        @external_link = ExternalLink.new
+      end
+
+      def menu_item_params
+        params.require(:menu_item).permit(:menu_name, :name, :parent_id, :anchored, :new_window, :title_attribute, link_attributes: [ :resource_type, :resource_id, :menu_item_id ])
+      end
 
   end
 end

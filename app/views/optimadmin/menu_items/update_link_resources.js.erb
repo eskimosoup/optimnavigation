@@ -1,0 +1,14 @@
+$('#menu_item_link_attributes_resource_id option').remove();
+<% if @leaf_options.present? %>
+  $('#menu_item_link_attributes_resource_id')
+         .append($("<option></option>")
+         .attr("value", '')
+         .text('Please select'));
+
+  <% @leaf_options.each do |name, id| %>
+  $('#menu_item_link_attributes_resource_id')
+         .append($("<option></option>")
+         .attr("value",<%= id %>)
+         .text('<%= j name %>'));
+  <% end %>
+<% end %>

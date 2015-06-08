@@ -1,7 +1,7 @@
 module Optimadmin
   class ExternalLinksController < ApplicationController
     load_and_authorize_resource
-    
+
     before_action :set_external_link, only: [:edit, :update, :destroy]
 
     # GET /external_links
@@ -26,9 +26,20 @@ module Optimadmin
 
 
         if @external_link.save
-          redirect_to @external_link, notice: 'External link was successfully created.'
+          respond_to do |format|
+            format.html { redirect_to @external_link, notice: 'External link was successfully created.' }
+            format.js {
+              @external_link = ExternalLink.new
+              flash[:notice] = 'External link was successfully created.'
+              render :success
+              flash.clear
+            }
+          end
         else
-          render :new
+          respond_to do |format|
+            format.html { render :new }
+            format.js
+          end
         end
 
     end
@@ -60,7 +71,7 @@ module Optimadmin
 
       # Never trust parameters from the scary internet, only allow the white list through.
       def external_link_params
-        params.require(:external_link).permit(:url)
+        params.require(:external_link).permit(:name)
       end
   end
 end

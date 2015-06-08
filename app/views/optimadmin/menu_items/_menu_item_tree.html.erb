@@ -4,10 +4,12 @@
       <span class="drag-helper"></span>
 
       <%= link_to menu_item.name, edit_menu_item_path(menu_item) %>
+      ->
+      <%= link_to menu_item.link.resource_type, menu_item.link.destination %>
 
       <%= link_to octicon('pencil').html_safe, edit_menu_item_path(menu_item), class: 'edit-menu-item' %>
 
-      <%= link_to octicon('trashcan').html_safe, menu_item_path(menu_item), method: :delete, data: { confirm: 'Are you sure?' }, class: 'edit-menu-item' %>
+      <%= link_to octicon('trashcan').html_safe, menu_item_path(menu_item), method: :delete, data: { confirm: 'Are you sure?' }, class: 'edit-menu-item' unless menu_item.anchored.present? %>
 
       <% unless menu_item_children.size.zero? %>
         <ul>

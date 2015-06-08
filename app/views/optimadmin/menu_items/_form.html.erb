@@ -21,7 +21,7 @@
     </div>
 
     <div class="field">
-      <%= f.label :title_attribute %><br/>
+      <%= f.label :title_attribute %>
       <%= f.text_field :title_attribute %>
     </div>
 
@@ -52,3 +52,14 @@
     <%= f.submit %>
   </div>
 <% end %>
+
+<%= link_to 'New static page', '#', class: 'toggle-class', data: { class: 'hide', container: '#new-static-page-form', return: 'true' } %>
+<%= link_to 'New external link', '#', class: 'toggle-class', data: { class: 'hide', container: '#new-external-link-form', return: 'true' } %>
+
+<div class="hide" id="new-static-page-form">
+  <%= render 'optimadmin/static_pages/remote_form' %>
+</div>
+
+<div class="hide" id="new-external-link-form">
+  <%= render 'optimadmin/external_links/form' %>
+</div>

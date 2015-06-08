@@ -1,16 +1,18 @@
-<%= render 'optimadmin/shared/header/main_title', title: 'Manage Menus' %>
+<%= render 'optimadmin/shared/header/main_title', title: 'Manage Site Navigation (Menus)' %>
 
 <div class="main-content">
   <div class="row collapse">
-    <div class="large-3 columns">
-      <div class="back">
-        <%= link_to static_pages_path do %>
-          <%= octicon('file-text') %>
-          Manage Static Pages
-        <% end %>
+    <% if can? :manage, Optimadmin::StaticPage %>
+      <div class="large-3 columns">
+        <div class="back">
+          <%= link_to static_pages_path do %>
+            <%= octicon('file-text') %>
+            Manage Static Pages
+          <% end %>
+        </div>
       </div>
-    </div>
-
+    <% end %>
+    
     <div class="large-4 end columns">
       <div class="back">
         <%= link_to reorder_menu_items_path do %>
@@ -26,7 +28,7 @@
     <h2><%= menu.humanized_name %></h2>
 
     <%= render 'optimadmin/shared/module/index/new_item', title: 'Menu Item', object: Optimadmin::MenuItem, path: new_menu_item_path(menu_name: menu.name) %>
-    
+
     <%= render partial: "menu_item_tree", locals: { menu_item_tree: menu.menu_items } %>
   <% end %>
 </div>

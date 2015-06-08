@@ -1,0 +1,27 @@
+<% if @static_page.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@static_page.errors.count, "error") %> prohibited this static_page from being saved:</h2>
+
+    <ul>
+    <% @static_page.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= field_set_tag 'Settings' do %>
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :route %><br>
+    <%= f.text_field :route %>
+  </div>
+<% end %>
+
+<div class="actions">
+  <%= f.submit %>
+</div>
