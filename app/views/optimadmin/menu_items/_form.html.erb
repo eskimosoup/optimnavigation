@@ -53,8 +53,29 @@
   </div>
 <% end %>
 
-<%= link_to 'New static page', '#', class: 'toggle-class', data: { class: 'hide', container: '#new-static-page-form', return: 'true' } %>
-<%= link_to 'New external link', '#', class: 'toggle-class', data: { class: 'hide', container: '#new-external-link-form', return: 'true' } %>
+<hr />
+
+<div class="row collapse">
+  <% if can? :manage, Optimadmin::StaticPage %>
+    <div class="large-3 columns">
+      <div class="back">
+        <%= link_to '#', class: 'toggle-class', data: { class: 'hide', container: '#new-static-page-form', return: 'true' } do %>
+          <%= octicon('file-text') %>
+          New Static Page
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="large-4 end columns">
+    <div class="back">
+      <%= link_to '#', class: 'toggle-class', data: { class: 'hide', container: '#new-external-link-form', return: 'true' } do %>
+        <%= octicon('link-external') %>
+        New External Link
+      <% end %>
+    </div>
+  </div>
+</div>
 
 <div class="hide" id="new-static-page-form">
   <%= render 'optimadmin/static_pages/remote_form' %>

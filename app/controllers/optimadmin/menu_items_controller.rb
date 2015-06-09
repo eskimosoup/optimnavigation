@@ -3,7 +3,8 @@ module Optimadmin
     #load_and_authorize_resource
 
     before_action :set_menu_item, only: [:edit, :update, :destroy]
-    before_action :new_static_page, only: [:new, :edit, :update]
+    before_action :new_static_page, only: [:new, :create, :edit, :update]
+    before_action :link_resources, only: [:create, :edit, :update]
 
     def index
       @menus = Menu.build_collection
@@ -18,6 +19,7 @@ module Optimadmin
 
     def create
       @menu_item = MenuItem.new(menu_item_params)
+      #@menu_item.build_link
       if @menu_item.save
         redirect_to menu_items_path, notice: "Successfully created menu item"
       else
@@ -30,17 +32,6 @@ module Optimadmin
       @menu_items = MenuItem.where(menu_name: @menu_item.menu_name).where.not(id: @menu_item.id).pluck(:name, :id)
 
       @menu_item.build_link if @menu_item.link.blank?
-
-      begin
-        @klass = @menu_item.link.resource_type.blank? ? nil : @menu_item.link.resource_type.constantize
-      rescue NameError
-        @klass = nil
-      end
-
-      if @klass
-        @link_resources = @klass.all.map{ |x| [x.name, x.id] }
-      end
-
     end
 
     def update
@@ -105,6 +96,21 @@ module Optimadmin
 
       def menu_item_params
         params.require(:menu_item).permit(:menu_name, :name, :parent_id, :anchored, :new_window, :title_attribute, link_attributes: [ :resource_type, :resource_id, :menu_item_id ])
+      end
+
+      def link_resources
+        begin
+          @klass = @menu_item.link.resource_type.blank? ? nil : @menu_item.link.resource_type.constantize
+        rescue NameError
+          @klass = nil
+        end
+
+        if @klass
+          @link_resources = @klass.all.map{ |x| [x.name, x.id] }
+          @selected = @menu_item.link.resource_id.present? ? @menu_item.link.resource_id.to_i : nil
+        else
+          @link_resources = @selected = nil
+        end
       end
 
   end
