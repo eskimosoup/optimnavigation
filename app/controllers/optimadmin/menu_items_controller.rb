@@ -4,7 +4,7 @@ module Optimadmin
 
     before_action :set_menu_item, only: [:edit, :update, :destroy]
     before_action :new_static_page, only: [:new, :create, :edit, :update]
-    before_action :link_resources, only: [:create, :edit, :update]
+    before_action :link_resources, only: [:edit, :update]
 
     def index
       @menus = Menu.build_collection
@@ -19,7 +19,21 @@ module Optimadmin
 
     def create
       @menu_item = MenuItem.new(menu_item_params)
-      #@menu_item.build_link
+
+      begin
+        @klass = params[:menu_item][:link_attributes][:resource_type].constantize unless params[:menu_item][:link_attributes][:resource_type].blank?
+      rescue NameError
+        @klass = nil
+      end
+
+
+      if @klass
+        @link_resources = @klass.all.map{ |x| [x.name, x.id] }
+        @selected = @menu_item.link.resource_id.present? ? @menu_item.link.resource_id.to_i : nil
+      else
+        @link_resources = @selected = nil
+      end
+
       if @menu_item.save
         redirect_to menu_items_path, notice: "Successfully created menu item"
       else
@@ -109,7 +123,8 @@ module Optimadmin
           @link_resources = @klass.all.map{ |x| [x.name, x.id] }
           @selected = @menu_item.link.resource_id.present? ? @menu_item.link.resource_id.to_i : nil
         else
-          @link_resources = @selected = nil
+          @link_resources = nil
+          @selected = nil
         end
       end
 

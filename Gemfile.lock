@@ -5,6 +5,7 @@ PATH
       bcrypt
       cancancan
       carrierwave
+      closure_tree
       jquery-rails
       kaminari
       mini_magick

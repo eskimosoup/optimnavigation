@@ -24,15 +24,37 @@
   </div>
 
 
-  <% @menus.each do |menu| %>
-    <h2><%= menu.humanized_name %></h2>
+  <% @menus.each_with_index do |menu, index| %>
+    <div class="row">
+      <div class="small-6 columns">
+        <h2><%= menu.humanized_name %></h2>
+      </div>
 
-    <%= render 'optimadmin/shared/module/index/new_item', title: 'Menu Item', object: Optimadmin::MenuItem, path: new_menu_item_path(menu_name: menu.name) %>
+      <div class="small-6 columns">
+        <%= render 'optimadmin/shared/module/index/new_item', title: 'Menu Item', object: Optimadmin::MenuItem, path: new_menu_item_path(menu_name: menu.name) %>
+      </div>
+    </div>
+
 
     <% if menu.menu_items.blank? %>
       <p>This menu doesn't have any menu items yet. Use the button above to create one.</p>
     <% end %>
 
-    <%= render partial: "menu_item_tree", locals: { menu_item_tree: menu.menu_items } %>
+    <div class="menu-items-list">
+      <div class="row collapse module-list-index header">
+
+      <%= list_item 'small-6' do 'Menu item' end %>
+
+      <%= list_item 'small-3' do 'Resource type' end %>
+
+      <%= list_item { 'View' } %>
+
+      <%= list_item { 'Edit' } %>
+
+      <%= list_item { 'Delete' } %>
+      </div>
+
+      <%= render partial: "menu_item_tree", locals: { menu_item_tree: menu.menu_items } %>
+    </div>
   <% end %>
 </div>

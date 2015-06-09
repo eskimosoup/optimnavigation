@@ -35,10 +35,12 @@
       <%= f.check_box :new_window %>
     </div>
 
-    <div class="field">
-      <%= f.label :anchored do %><abbr title="Anchored menu items can not be deleted">Anchored</abbr><% end %><br />
-      <%= f.check_box :anchored %>
-    </div>
+    <% if @current_administrator.role == 'master' %>
+      <div class="field">
+        <%= f.label :anchored do %><abbr title="Anchored menu items can not be deleted">Anchored</abbr><% end %><br />
+        <%= f.check_box :anchored %>
+      </div>
+    <% end %>
 
   <% end %>
 
