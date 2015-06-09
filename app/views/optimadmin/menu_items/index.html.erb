@@ -12,7 +12,7 @@
         </div>
       </div>
     <% end %>
-    
+
     <div class="large-4 end columns">
       <div class="back">
         <%= link_to reorder_menu_items_path do %>
@@ -28,6 +28,10 @@
     <h2><%= menu.humanized_name %></h2>
 
     <%= render 'optimadmin/shared/module/index/new_item', title: 'Menu Item', object: Optimadmin::MenuItem, path: new_menu_item_path(menu_name: menu.name) %>
+
+    <% if menu.menu_items.blank? %>
+      <p>This menu doesn't have any menu items yet. Use the button above to create one.</p>
+    <% end %>
 
     <%= render partial: "menu_item_tree", locals: { menu_item_tree: menu.menu_items } %>
   <% end %>

@@ -8,11 +8,11 @@
 <% if @menu_item.link.resource_type.present? %>
   <div class="field">
     <%= f.label :resource_id %>
-    <%= f.select :resource_id, @link_resources, selected: @menu_item.link.resource_id.to_i, prompt: 'Please select' %>
+    <%= f.select :resource_id, options_for_select(@link_resources, selected: @selected), {}, { prompt: 'Please select', class: 'searchable-select' } %>
   </div>
 <% else %>
   <div class="field">
     <%= f.label :resource_id %>
-    <%= f.select :resource_id, [''] %>
+    <%= f.select :resource_id, [''], class: 'searchable-select' %>
   </div>
 <% end %>

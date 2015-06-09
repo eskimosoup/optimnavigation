@@ -12,7 +12,7 @@ module Optimadmin
 
     def destination
       if resource_type == 'Optimadmin::ExternalLink'
-        Object.const_get("Optimadmin::#{resource_type}").find(resource_id).name
+        resource = Object.const_get("Optimadmin::#{resource_type}").find(resource_id).name
       elsif resource_type == 'Optimadmin::StaticPage'
         path = Object.const_get("Optimadmin::#{resource_type}").find(resource_id).route
         send(path)
