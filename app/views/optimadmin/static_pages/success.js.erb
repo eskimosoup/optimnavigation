@@ -1,4 +1,4 @@
-if($('#menu_item_link_attributes_resource_type').val() == 'Optimadmin::StaticPage') {
-  $('#menu_item_link_attributes_resource_type').change();
+if($('#menu_item_link_attributes_menu_resource_type').val() == 'Optimadmin::StaticPage') {
+  $('#menu_item_link_attributes_menu_resource_type').change();
 }
 $('#new_static_page').replaceWith("<%= j render 'optimadmin/static_pages/remote_form' %>")

@@ -6,7 +6,8 @@ class ApplicationController < ActionController::Base
   before_action :global_site_settings
 
   def index
-
+    @header_menu = Optimadmin::Menu.new(name: "header")
+    @footer_menu = Optimadmin::Menu.new(name: "footer")
   end
 
   private

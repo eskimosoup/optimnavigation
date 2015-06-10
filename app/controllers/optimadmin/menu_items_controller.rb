@@ -21,7 +21,7 @@ module Optimadmin
       if @menu_item.save
         redirect_to menu_items_path, notice: "Successfully created menu item"
       else
-        @link_resources = FindLinkResources.new(@menu_item.link.resource_type).call
+        @link_resources = FindLinkResources.new(@menu_item.link.menu_resource_type).call
         @menu_items = MenuItem.where(menu_name: @menu_item.menu_name).pluck(:name, :id)
         render :new
       end
@@ -76,11 +76,11 @@ module Optimadmin
       end
 
       def menu_item_params
-        params.require(:menu_item).permit(:menu_name, :name, :parent_id, :anchored, :new_window, :title_attribute, link_attributes: [ :resource_type, :resource_id, :menu_item_id ])
+        params.require(:menu_item).permit(:menu_name, :name, :parent_id, :anchored, :new_window, :title_attribute, link_attributes: [ :menu_resource_type, :menu_resource_id, :menu_item_id ])
       end
 
       def link_resources
-        @link_resources = FindLinkResources.new(params[:klass]).call
+        @link_resources = FindLinkResources.new(@menu_item.link.menu_resource_type).call
       end
 
   end

@@ -12,7 +12,7 @@ module Optimadmin
     end
 
     def menu_items
-      @menu_items ||= MenuItem.includes(:link).where(menu_name: name).hash_tree
+      @menu_items ||= MenuItem.includes(link: :menu_resource).where(menu_name: name).hash_tree
     end
 
     def self.build_collection

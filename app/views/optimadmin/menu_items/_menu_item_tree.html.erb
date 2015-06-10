@@ -10,7 +10,7 @@
 
         <div class="small-3 columns">
           <% unless menu_item.link.destination.blank? %>
-            <%= menu_item.link.resource_type unless menu_item.link.destination.blank? %>
+            <%= menu_item.link.menu_resource_type unless menu_item.link.destination.blank? %>
           <% else %>
             <span class="dead-link">Dead link</span>
           <% end %>
@@ -18,7 +18,7 @@
 
         <div class="small-1 text-center columns">
           <% unless menu_item.link.destination.blank? %>
-            <%= link_to octicon('eye').html_safe, menu_item.link.destination, title: menu_item.link.resource_type, class: 'menu-item-control', target: '_blank' %>
+            <%= link_to octicon('eye').html_safe, menu_item.link.destination, title: menu_item.link.menu_resource_type, class: 'menu-item-control', target: '_blank' %>
           <% else %>
             <span class="disabled">
               <%= octicon('eye') %>
