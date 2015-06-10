@@ -14,29 +14,14 @@ module Optimadmin
       @menu_item = MenuItem.new(menu_name: params[:menu_name])
       @menu_item.build_link
       @menu_items = MenuItem.where(menu_name: params[:menu_name]).pluck(:name, :id)
-
     end
 
     def create
       @menu_item = MenuItem.new(menu_item_params)
-
-      begin
-        @klass = params[:menu_item][:link_attributes][:resource_type].constantize unless params[:menu_item][:link_attributes][:resource_type].blank?
-      rescue NameError
-        @klass = nil
-      end
-
-
-      if @klass
-        @link_resources = @klass.all.map{ |x| [x.name, x.id] }
-        @selected = @menu_item.link.resource_id.present? ? @menu_item.link.resource_id.to_i : nil
-      else
-        @link_resources = @selected = nil
-      end
-
       if @menu_item.save
         redirect_to menu_items_path, notice: "Successfully created menu item"
       else
+        @link_resources = FindLinkResources.new(@menu_item.link.resource_type).call
         @menu_items = MenuItem.where(menu_name: @menu_item.menu_name).pluck(:name, :id)
         render :new
       end
@@ -44,7 +29,6 @@ module Optimadmin
 
     def edit
       @menu_items = MenuItem.where(menu_name: @menu_item.menu_name).where.not(id: @menu_item.id).pluck(:name, :id)
-
       @menu_item.build_link if @menu_item.link.blank?
     end
 
@@ -53,7 +37,6 @@ module Optimadmin
         redirect_to menu_items_path, notice: "Successfully created menu item"
       else
         @menu_items = MenuItem.where(menu_name: @menu_item.menu_name).where.not(id: @menu_item.id).pluck(:name, :id)
-
         render :edit
       end
     end
@@ -64,29 +47,13 @@ module Optimadmin
 
     def order
       params[:item].each_with_index do |id, index|
-      	MenuItem.find(id).update_attribute(:position, index)
-  	   end
-
-    	# Since the positions are being changed during the previous loop the positions depth cache
-    	# calculates wrong. A second pass fixes this but there should be a better way.
-    	MenuItem.all.each do |x|
-    	  x.save
-    	end
-
-	    render :nothing => true
+        MenuItem.find(id).update_attribute(:position, index)
+      end
+      render nothing: true
     end
 
     def update_link_resources
-      begin
-        @klass = params[:klass].constantize
-      rescue NameError
-        @klass = nil
-      rescue ActiveRecord::RecordNotFound
-        @klass = nil
-      end
-
-      @leaf_options = @klass.all.map{ |x| [x.name, x.id] } if @klass
-
+      @link_resources = FindLinkResources.new(params[:klass]).call
       respond_to do |format|
         format.js
       end
@@ -113,19 +80,7 @@ module Optimadmin
       end
 
       def link_resources
-        begin
-          @klass = @menu_item.link.resource_type.blank? ? nil : @menu_item.link.resource_type.constantize
-        rescue NameError
-          @klass = nil
-        end
-
-        if @klass
-          @link_resources = @klass.all.map{ |x| [x.name, x.id] }
-          @selected = @menu_item.link.resource_id.present? ? @menu_item.link.resource_id.to_i : nil
-        else
-          @link_resources = nil
-          @selected = nil
-        end
+        @link_resources = FindLinkResources.new(params[:klass]).call
       end
 
   end

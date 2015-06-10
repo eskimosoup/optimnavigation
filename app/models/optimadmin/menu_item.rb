@@ -6,9 +6,6 @@ module Optimadmin
     validates :name, presence: true, length: { maximum: 100 }
     validates :title_attribute, length: { maximum: 100 }
 
-    attr_accessor :resource_type, :resource_id
-    #validates :resource_type, :resource_id, presence: true
-
     belongs_to :link, class_name: "Optimadmin::Link", dependent: :destroy
 
     accepts_nested_attributes_for :link

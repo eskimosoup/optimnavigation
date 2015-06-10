@@ -12,6 +12,7 @@ Minitest::Reporters.use!(
 )
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
+  set_fixture_class static_pages: Optimadmin::StaticPage
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
