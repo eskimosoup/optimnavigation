@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150608141642) do
+ActiveRecord::Schema.define(version: 20150610120847) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,10 +77,10 @@ ActiveRecord::Schema.define(version: 20150608141642) do
 
   create_table "optimadmin_links", force: :cascade do |t|
     t.integer  "menu_item_id"
-    t.string   "resource_type"
-    t.integer  "resource_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.string   "menu_resource_type"
+    t.integer  "menu_resource_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
   add_index "optimadmin_links", ["menu_item_id"], name: "index_optimadmin_links_on_menu_item_id", using: :btree

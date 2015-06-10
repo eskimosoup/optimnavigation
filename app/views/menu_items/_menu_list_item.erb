@@ -1,0 +1,12 @@
+<li class="<%= menu_item_presenter.classes %>">
+  <%= menu_item_presenter.link_to_webpage %>
+  <% unless menu_item_children.size.zero? %>
+    <ul>
+      <% menu_item_children.each do |menu_item_child, menu_item_grand_child| %>
+        <% present menu_item_child do |menu_item_presenter| %>
+          <%= menu_item_presenter.list_item(menu_item_grand_child) %>
+        <% end %>
+      <% end %>
+    </ul>
+  <% end %>
+</li>

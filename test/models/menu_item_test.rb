@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class MenuItemTest < ActiveSupport::TestCase
+class Optimadmin::MenuItemTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
@@ -11,6 +11,6 @@ class MenuItemTest < ActiveSupport::TestCase
   should validate_length_of(:title_attribute).is_at_most(100)
 
   def test_has_closure_tree
-    assert MenuItem.methods.include?(:has_closure_tree)
+    assert Optimadmin::MenuItem.methods.include?(:has_closure_tree)
   end
 end
