@@ -1,45 +1,55 @@
 class MenuItemPresenter
 
-  attr_reader :menu_item, :link, :menu_resource, :template
-  def initialize(menu_item, template)
+  attr_reader :menu_item, :link, :menu_resource
+
+  def initialize(menu_item:, view_template:, descendants_hash: nil)
     @menu_item = menu_item
     @link = menu_item.link
     @menu_resource = @link.menu_resource
-    @template = template
-  end
-
-  def list_item(menu_item_children)
-    return nil if destination.nil?
-    h.render partial: 'menu_items/menu_list_item', locals: { menu_item_presenter: self, menu_item_children: menu_item_children }
+    @descendants_hash = descendants_hash
+    @view_template = view_template
   end
 
   def link_to_webpage
     return nil if destination.nil?
-    h.link_to name, destination, title: title_attribute
+    h.link_to name, destination, title: title_attribute, class: classes
   end
 
   def classes
-    classes = []
+    classes = ["menu-link"]
     classes << "active" if active?
     classes.join(' ')
-  end
-
-  def active?
-    h.current_page?(destination) || active_decendants?
   end
 
   private
 
   def h
-    @template
+    @view_template
   end
 
-  def descendants
-    menu_item.descendants.map{|x| self.class.new(x, template) }
+  def active?
+    destination_evaluator.active? || active_descendants?
   end
 
-  def active_decendants?
-    descendants.map(&:active?).any?{|x| x == true }
+  def descendants_array
+    @desendants_array ||= build_descendants_array
+  end
+
+  def build_descendants_array
+    flatten_nested_hash(@descendants_hash)
+  end
+
+  def flatten_nested_hash(menu_items)
+    # flat maps flattens by one level, call recursively packaging the values into one item of an array by the splat operator
+    menu_items.flat_map{|k, v| [k, *flatten_nested_hash(v)] }
+  end
+
+  def descendants_destinations
+    descendants_array.map{|x| MenuItemDestinationEvaluator.new(view_template: h, menu_resource: x.link.menu_resource) }
+  end
+
+  def active_descendants?
+    descendants_destinations.map(&:active?).any?{|x| x == true }
   end
 
   def name
@@ -51,13 +61,10 @@ class MenuItemPresenter
   end
 
   def destination
-    case menu_resource
-      when Optimadmin::StaticPage
-        h.public_send(menu_resource.route) if h.respond_to?(menu_resource.route)
-      when Optimadmin::ExternalLink
-        menu_resource.name
-      else
-        nil
-    end
+    destination_evaluator.destination
+  end
+
+  def destination_evaluator
+    @destination_evaluator ||= MenuItemDestinationEvaluator.new(view_template: h, menu_resource: menu_resource)
   end
 end
