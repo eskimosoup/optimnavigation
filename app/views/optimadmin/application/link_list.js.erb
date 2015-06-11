@@ -1,0 +1,13 @@
+[
+<% NavigationLinks.to_a.each do |navigation_item| %>
+  {text: '<%= navigation_item[0] %>', menu: [
+    <% model_item = FindLinkResources.new(navigation_item[1]).tiny_mce %>
+
+    <% if model_item.present? %>
+      <%= raw model_item.map{|item| "{text: '#{item.name}', value: '#{MenuItemDestinationEvaluator.new(view_template: self, menu_resource: item, admin: true).destination}'}"}.join(', ') %>
+    <% else %>
+      {text: 'None', value: ''}
+    <% end %>
+  ]},
+<% end %>
+]

@@ -15,4 +15,8 @@ class FindLinkResources
     klass.pluck(:name, :id)
   end
 
+  def tiny_mce
+    return nil if klass.nil?
+    klass.all
+  end
 end
