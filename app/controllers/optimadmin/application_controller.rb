@@ -9,7 +9,7 @@ module Optimadmin
 
     def link_list
       respond_to do |format|
-        format.js {
+        format.js {          
           render :layout => nil
         }
       end
