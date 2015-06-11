@@ -1,0 +1,14 @@
+[
+<% NavigationLinks.to_a.each do |navigation_item| %>
+  {text: '<%= navigation_item[0] %>', menu: [
+    <% # TODO: Implement destination here %>
+    <% model_item = FindLinkResources.new(navigation_item[1]).call %>
+
+    <% if model_item.present? %>
+      <%= raw model_item.map{|document| "{text: '#{document[0]}', value: '#{document[1]}'}"}.join(', ') %>
+    <% else %>
+      {text: 'None', value: ''}
+    <% end %>
+  ]},
+<% end %>
+]
