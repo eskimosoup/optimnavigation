@@ -1,3 +1,30 @@
-<div class="menu_item">
-  <%= menu_item.name %>
-</div>
+<li class="menu-item" id="item_<%= menu_item_presenter.menu_item.id %>">
+  <div class="module-list-index <%= cycle('odd', 'even') %>">
+    <div class="small-6 columns">
+      <span class="drag-helper"></span>
+      <%= menu_item_presenter.named_edit_link %>
+    </div>
+
+    <div class="small-3 columns">
+      <%= menu_item_presenter.menu_resource_type %>
+    </div>
+
+    <div class="small-1 text-center columns">
+      <%= menu_item_presenter.show_link %>
+    </div>
+
+    <div class="small-1 text-center columns">
+      <%= menu_item_presenter.octicon_edit_link %>
+    </div>
+
+    <div class="small-1 text-center columns">
+      <%= menu_item_presenter.delete_link %>
+    </div>
+  </div>
+
+  <% if sub_menu_items.present? %>
+    <%= content_tag :ul, class: "depth-#{ depth }" do %>
+      <%= nested_admin_menu_items(menu_items: sub_menu_items, depth: depth + 1) %>
+    <% end %>
+  <% end %>
+</li>
