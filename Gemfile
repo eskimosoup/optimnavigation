@@ -44,6 +44,7 @@ group :development, :test do
   # gem 'spring'
   gem "bullet"
   gem 'quiet_assets'
+  gem 'rack-mini-profiler'
 end
 
 gem 'closure_tree'

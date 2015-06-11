@@ -1,21 +1,3 @@
 <%= link_to 'Log into the admin', '/admin' %>
 
-<% unless @header_menu.blank? %>
-  <ul>
-    <% @header_menu.menu_items.each do |menu_item, menu_item_children| %>
-      <% present menu_item do |menu_item_presenter| %>
-        <%= menu_item_presenter.list_item(menu_item_children) %>
-      <% end %>
-    <% end %>
-  </ul>
-<% end %>
-
-<% unless @footer_menu.blank? %>
-  <ul>
-    <% @footer_menu.menu_items.each do |menu_item, menu_item_children| %>
-      <% present menu_item do |menu_item_presenter| %>
-        <%= menu_item_presenter.list_item(menu_item_children) %>
-      <% end %>
-    <% end %>
-  </ul>
-<% end %>
+<%= render partial: "nested_menu_items" %>
