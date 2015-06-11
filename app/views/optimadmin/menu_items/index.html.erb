@@ -54,7 +54,9 @@
       <%= list_item { 'Delete' } %>
       </div>
 
-      <%= render partial: "menu_item_tree", locals: { menu_item_tree: menu.menu_items } %>
+      <ul>
+        <%= nested_admin_menu_items(menu_items: menu.menu_items) %>
+      </ul>
     </div>
   <% end %>
 </div>
